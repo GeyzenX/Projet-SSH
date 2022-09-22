@@ -1,0 +1,28 @@
+LRB – SIO1 - SSH Secure Shell 
+
+1) Installation de serveur SSH sur Vm Linux
+
+-J’ai installé le serveur SSH grâce à la commande : sudo apt install openssh-server.
+
+-Puis j’ai générer les clés ssh afin de s’authentifier entre hôte sans mot de passe grâce à la commande suivante : ssh-keygen -t rsa. 
+
+-Puis j’ai copié le fichier home/anish/.ssh/id_rsa.pub ou la clé privée est enregistré par défaut et l’ajouté à home/anish/.ssh/authorised_keys grâce à la commande suivante :                                    ssh-copy id anish@ubuntu .
+
+-Maintenant je vais pouvoir me connecter à mon serveur ssh sans mot de passe en tapant :              SSH anish@ubuntu.
+
+Nano etc/ssh/sshd_config : permet de configurer le serveur SSH.
+
+2) Installation de fail2ban
+-Pour sécuriser mon serveur ssh j’ai installé fail2ban. Sudo apt install fail2ban.
+
+-Ensuite pour configurer le serveur fail2ban j’ai d’abord copié le fichier etc/fail2ban/jail.conf en jail.local au cas ou le fichier jail.conf serait dédommager.
+
+-Puis grâce à la commande : sudo nano etcfail2ban/jail.local j’ai ouvert le fichier et je pouvais regarder et modifier le contenu du fichier par exemple je peux modifier le temps de bannissement, puis j’ai ban mon propre ip (127,0,0,1) et vérifié si je pouvais me connecter au serveur ssh et je ne pouvais plus m’accéder à mon serveur SSH. J’ai aussi essayé de me connecter depuis Windows grâce  à l’invité de commandes.
+
+Je me suis déconnecter et j’ai essayé de me connecter et mettant un faux mot de passe et on remarque qu’au bout de 3 tentatives je n’avais plus le permission de me connecter (j’ai mis maxretry 3 dans le fichier jail.local).
+
+Puis j’ai vérifier sur fail2ban grâce et on remarque dans currently failed il y a eu 1 ce qui veut dire qu’il y a eu une tentative de connexion qui a échoué.
+
+En tapant la commande sudo fail2ban-client status sshd je peux voir l’état de fail2ban, s’il y a eu des tentatives de connexion ratés ou encore les adresse ip banni. J’ai aussi ban mon propre adresse ip manuellement puis j’ai dé banni et on peut remarquer que dans total banned il y a 1 adresse IP banni.
+
+On peut remarquer que ma connexion a été refusé et après avoir dé banni je pouvais me connecter à nouveau.
